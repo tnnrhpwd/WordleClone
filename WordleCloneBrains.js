@@ -1,4 +1,4 @@
-let keys = { //create dictionary object to store pairs of character pairs.
+let keys = { //create dictionary object to store pairs of keys and result(correct, found, wrong).
   'Q': '', 'W': '', 'E': '', 'R': '', 'T': '', 'Y': '', 'U': '', 'I': '', 'O': '', 'P': '', 'break': '',
   'A': '', 'S': '', 'D': '', 'F': '', 'G': '', 'H': '', 'J': '', 'K': '', 'L': '', 'break2': '',
   'enter': '', 'Z': '', 'X': '', 'C': '', 'V': '', 'B': '', 'N': '', 'M': '', '⌫': ''
@@ -234,16 +234,16 @@ var WordLength;  // word length
 var SecretWord; // secret word answer
 var wordArray = []; // array used to collect length fitting words
 var NumberOfGuesses = 6; // declare the standard number of guesses.
-const Correct = 'correct';
+const Correct = 'correct'; 
 const Found = 'found';
 const Wrong = 'wrong';
-let guessGrid = document.getElementById("guessGrid"); // initialize tile id variable
-let keyboard = document.getElementById("keyboard"); // initialize keyboard id variable 
-let automate = document.getElementById("automate"); // initialize automate id variable
-let credits = document.getElementById("credits");// initialize credits id variable
-var form = document.getElementById('form');
+let guessGrid = document.getElementById("guessGrid"); // initialize tile id variable for text output
+let keyboard = document.getElementById("keyboard"); // initialize keyboard id variable for text output
+let automate = document.getElementById("automate"); // initialize automate id variable for text output
+let credits = document.getElementById("credits");// initialize credits id variable for text output
+var form = document.getElementById('form'); // initialize credits id variable to collect key inputs
 
-Initialize()
+Initialize() // The main method call for the method
 
 function resetGameBoard(src){
   setTimeout(function(){
@@ -374,7 +374,7 @@ function countCRTLTR(strg,guessstrr,answw){ //counts number times strng1 appears
   return appearances;
 };
 
-// fix mutliple orange bug
+
 function enter() {
   //if guess is too short or out of lives, then enter button wont work.
   if (currentGuess.length < WordLength || guesses.length >= NumberOfGuesses) { 

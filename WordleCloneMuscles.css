@@ -1,16 +1,16 @@
-.container .correct {
+.container .correct { /* CLASS for correct letters*/
   background-color: #538D4E;
   border-color: #538D4E;
   color: white;
 }
 
-.container .found {
+.container .found {   /* CLASS for found letters*/
   background-color: #c9b458;
   border-color: #c9b458;
   color: white;
 }
 
-.container .wrong {
+.container .wrong {   /* CLASS for wrong letters*/
   background-color: #3A3A3C;
   border-color: #3A3A3C;
   color: white;
