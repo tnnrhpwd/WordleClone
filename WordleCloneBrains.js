@@ -245,115 +245,110 @@ var form = document.getElementById('form'); // initialize credits id variable to
 
 Initialize() // The main method call for the method
 
-function resetGameBoard(src){
+function resetGameBoard(src){ // This method resets the game board after 3 seconds
   setTimeout(function(){
     document.location.reload(false);
   },3000)
 }
 
-function getLength(){
+function getLength(){ // This method returns a random number [4,11]. It is parsed into an INT in Initialize()
   return ((Math.random()*6)+4);
 }
 
-function getWord(lneword){
+function getWord(lneword){ // This method fills wordArray with words that are specific length. Then, it returns a random word from wordArray.
   wordArray.clear;// just in case
-
-  for(let ju=0;ju<DICTIONARY.length;ju++){
-    if(DICTIONARY[ju].length==lneword){wordArray.push(DICTIONARY[ju])}
+  for(let ju=0;ju<DICTIONARY.length;ju++){//fills wordArray with words that are specific length. 
+    if(DICTIONARY[ju].length==lneword){wordArray.push(DICTIONARY[ju])} 
   }
-
-  var tempWd=wordArray[Math.floor(Math.random()*wordArray.length)];
-  
-
-  return tempWd.toUpperCase();
+  var tempWd=wordArray[Math.floor(Math.random()*wordArray.length)]; //assigns random word from wordArray
+  return tempWd.toUpperCase(); //return uppercase random length-fitting word
 }
 
 function Initialize(){ // This method gets answer and builds grid, keyboard, automate, and credits. It also assigns key strokes to letter inputs
 
-  WordLength = parseInt(getLength());
-  SecretWord =getWord(WordLength)
+  WordLength = parseInt(getLength()); // generate the answer length
+  SecretWord =getWord(WordLength) // generate the answer
 
-  if(SecretWord.length>6){
+  if(SecretWord.length>6){  //if the word is bigger, it ups the possible guesses
     NumberOfGuesses=7;
-  } else if(SecretWord.length>8){
+  } else if(SecretWord.length>8){ // if word is biggest, get an extra life.
     NumberOfGuesses=8;
   }
 
-  for (let i = 0; i < NumberOfGuesses; i++) { // id gridguess section
+  for (let i = 0; i < NumberOfGuesses; i++) {                         // ID gridguess section creation
     for (let j = 0; j < WordLength; j++) {
       guessGrid.innerHTML += `<div id="${i}${j}" class="key-guess"></div>`
     }
     guessGrid.innerHTML += '<br/>'
   }
   
-  Object.keys(keys).forEach((key) => { // id keyboard section
-  if (key.includes('break')) {
-    keyboard.innerHTML += '<br/>';
-  } else {
+  Object.keys(keys).forEach((key) => {                          // ID keyboard section creation
+  if (key.includes('break')) { // new line
+    keyboard.innerHTML += '<br/>'; 
+  } else { //add key buttons
     keyboard.innerHTML += `<button id="${key}" class="key" onclick="keyClick('${key}')">` + key + '</button>';
   }
   });
 
-  // Add event listener on keydown
-  document.addEventListener('keydown', (event) => {
-    if(event.code.length==4){
+  document.addEventListener('keydown', (event) => { //event listener on keydown - listens for user keyboard
+    if(event.code.length==4){ //if key was a letter
       keyClick(event.code.substring(3,4));
     }
-    switch(event.code){
+    switch(event.code){ //if key was not a letter
       case 'Backspace': backspace(); 
       case 'Enter': enter(); 
       //case 'Space': revealSolution(); 
     }
   }, false);
 
-  
+  // add the reveal solution button
   automate.innerHTML = `<button id="${'revealSolution'}" class="keySolution" onclick="keyClick('${'revealSolution'}')">` + "Reveal Solution" + '</button>';
-  //automate.innerHTML = `<div class="animate">`+"Answer = "+SecretWord+`</div>`; // id automate section
   
+  // write thank you on page
   credits.innerHTML = `<div class="credits">`+"Thank you for visiting."+`</div>`; // id credits section
 }
 
-function clear(htmlID) { //clears the contents of any id in the HTML file.
-  document.getElementById(htmlID).innerHTML="";
+function clear(htmlID) { //clears the contents of any ID.
+  document.getElementById(htmlID).innerHTML=""; // it is used to make web elements disapear
 }
 
 function revealSolution(){ //this methods reveals the text answer and enters it in the grid.
-  clear("automate");
-  automate.innerHTML += `<div id="automate" class="automate">`+"Answer = "+SecretWord+`</div>`; // id automate section
-  for(let lzr=0;lzr<SecretWord.length;lzr++){
+  clear("automate");// remove the reveal solution button
+  automate.innerHTML += `<div id="automate" class="automate">`+"Answer = "+SecretWord+`</div>`;  // write the answer where the button was
+  for(let lzr=0;lzr<SecretWord.length;lzr++){ // auto type the answer into the grid for the user
     keyClick(SecretWord.charAt(lzr))
   }
-  enter();
+  enter(); // auto press enter for the user. Note: does not end game if user had letter on the board while pressing Reveal Solution
 }
 
-function keyClick(key) {
+function keyClick(key) { // typed letters call this function. adds letter objects to currentGuess
   switch (key) {
-    case '⌫':
-      backspace();
-      break;
-    case 'revealSolution':
+    case '⌫': // if typed button was backspace
+      backspace(); 
+      break; 
+    case 'revealSolution': // if typed button was revealSolution
       revealSolution();
       break;
-    case 'enter':
+    case 'enter': // if typed button was enter
       enter();
       break;
     default:
-      if (currentGuess.length < WordLength
-        && guesses.length < NumberOfGuesses) {
-        currentGuess.push({ key: key, result: '' });
-        updateCurrentGuess();
+      if (currentGuess.length < WordLength 
+        && guesses.length < NumberOfGuesses) { //enough letters typed && game still active
+        currentGuess.push({ key: key, result: '' }); //adds letter object to currentGuess array
+        updateCurrentGuess(); // places the letter on the game grid
       }
   }
 }
 
-function backspace() {
-  if (currentGuess.length > 0) {
-    currentGuess.pop();
+function backspace() { // this method removes the last element from the currentGuess
+  if (currentGuess.length > 0) { //if array not empty
+    currentGuess.pop(); // remove last element
   }
-  updateCurrentGuess();
+  updateCurrentGuess(); // update the game grid with to match currentGuess
 }
 
-function countLTR(strng1,strng2){ //counts number times strng1 appears in strng2
+function countLTR(strng1,strng2){ //returns count of times strng1 appears in strng2. .count(char) was not working for me
   let appearances=0;
   for(let xf=0;xf<strng2.length;xf++){
     if (strng2.charAt(xf)==strng1){
@@ -364,101 +359,82 @@ function countLTR(strng1,strng2){ //counts number times strng1 appears in strng2
   return appearances;
 };
 
-function countCRTLTR(strg,guessstrr,answw){ //counts number times strng1 appears in strng2
-  let appearances=0;
-  for(let xf=0;xf<guessstrr.length;xf++){
-    if (guessstrr.charAt(xf)==strg&&answw.charAt(xf)==strg){
-      appearances++;
-    }
-  };
-  return appearances;
-};
-
-
-function enter() {
-  //if guess is too short or out of lives, then enter button wont work.
-  if (currentGuess.length < WordLength || guesses.length >= NumberOfGuesses) { 
+function enter() { // This method is called on Enter presses. It checks the input, assigns results to chars, and updates game.
+  
+  if (currentGuess.length < WordLength || guesses.length >= NumberOfGuesses) { //if guess is too short or out of lives, then enter button wont work.
     return;
   }
-  var guessString=""; // creates a guess string and assigns the guess characters to it.
-  currentGuess.forEach((keyGuess, index) => {
+  var guessString=""; // creates a guess string 
+  currentGuess.forEach((keyGuess, index) => { // extracts the string from the letter objects in the currentGuess array 
     guessString =guessString + keyGuess.key
   });
-  //Dictionary check guess -- IT WORKS!!!!!!
+
   if (!(DICTIONARY.includes(guessString))){ // if guess is not a word, enter button wont work
-    return
+    return // ends the method execution before results can be assigned.
   }
 
-  currentGuess.forEach((keyGuess, index) => { //assigns the outcomes of each guess letter to the respective key
-    if (SecretWord.charAt(index) == keyGuess.key) { //if key is correct
+  currentGuess.forEach((keyGuess, index) => { //   FOR EACH LETTER    -assigns the outcomes of each guess letter to the respective key then outputs to keys dictionary
+    if (SecretWord.charAt(index) == keyGuess.key) { //if input key matches letter of answer
       keyGuess.result = Correct;
     } 
-    else if (SecretWord.includes(keyGuess.key)) { // if answer includes key
+    else if (SecretWord.includes(keyGuess.key)) { // if input key is in the answer at all
       let CRTappearances=0;                                  //how many of that letter is correct
-      for(let xf=0;xf<guessString.length;xf++){ 
+      for(let xf=0;xf<guessString.length;xf++){    // counts how many of that letter are correctly placed in the word
         if (guessString.charAt(xf)==keyGuess.key&&SecretWord.charAt(xf)==keyGuess.key){
-          CRTappearances++;
+          CRTappearances++; // It needed to be able to see future letters before assigning yellow
         }
       };
       if((countLTR(keyGuess.key,SecretWord)>CRTappearances) // if not correctly used later && not too many used already
       &&(countLTR(keyGuess.key,SecretWord)>countLTR(keyGuess.key,guessString.substring(0,index)))){
         
-        keyGuess.result = Found;
+        keyGuess.result = Found; // assigns result to the letter object in the keys array
         
-      }else{keyGuess.result = Wrong;} 
+      }else{keyGuess.result = Wrong;} // assigns result to the letter object in the keys array
       
     } else {keyGuess.result = Wrong;} // else is wrong
-    if (keys[keyGuess.key] != Correct) { 
-      keys[keyGuess.key] = keyGuess.result
-    }});
+    if (keys[keyGuess.key] != Correct) {  // once key in dictionary assigned correct, it is not changed. prevents green keyboard keys from changing to orange.
+      keys[keyGuess.key] = keyGuess.result;  // updates the keys dictionary with results from currentGuess
+    }
+  });
 
-  if(guessString==SecretWord){ //if guess was correct
+  if((guessString==SecretWord)||(guesses.length>(NumberOfGuesses-2))){ //if WON or LOST, clear the board, print the answer, and reset the board
     clear("keyboard");
-    clear("automate");
+    clear("automate"); // clear the boad and print the answer
     automate.innerHTML +=`<div id="automate">`+"Your guess of "+guessString+" is correct!"+`</div>`;
-    resetGameBoard();
+    resetGameBoard(); // reset game
   }
 
-  if(guesses.length>(NumberOfGuesses-2)){ //if lost
-    clear("keyboard");
-    clear("automate");
-    automate.innerHTML +=`<div id="automate">`+"The answer was "+SecretWord+"."+`</div>`;
-
-    resetGameBoard();
-  }
-
-  updateCurrentGuess(true);
-  guesses.push(currentGuess);
-  currentGuess = [];
-
+  updateCurrentGuess(true); // outputs the found/correct tags to letters in guessgrid + executes updatekeyboard()
+  guesses.push(currentGuess); // add guess to previous guesses array
+  currentGuess = []; // clear the current guess
 }
 
-function updateKeyboard() {
-  for (const key in keys) {
-    if (keys[key] != '') {
-      let keyElement = document.getElementById(`${key}`);
-      keyElement.className = '';
-      keyElement.classList.add(keys[key]);
-      keyElement.classList.add('key');
+function updateKeyboard() { // FOR EACH GUESS KEY - clears CLASS, adds updated CLASS, and re-adds key CLASS
+  for (const key in keys) { // for each key object
+    if (keys[key] != '') { // keys that contains results
+      let keyElement = document.getElementById(`${key}`); //assigns key ID of each key in loop
+      keyElement.className = ''; // removes all classes from the key
+      keyElement.classList.add(keys[key]); // adds the keyGuess.result CLASS to the respective key - makes keys yellow/green/black
+      keyElement.classList.add('key'); // re-adds the key CLASS - makes key square, sets pixels, etc.
     }
   }
 }
 
 function updateCurrentGuess(guessed = false) {   // when no arguement, guess=false => places letter in guess grid
   let index = guesses.length;                    // When guess=true => outputs the found/correct tags to letters in guessgrid + executes updatekeyboard()
-  for (let i = 0; i < WordLength; i++) {
-    let guessGrid = document.getElementById(`${index}${i}`);
-    if (currentGuess[i]) {
+  for (let i = 0; i < WordLength; i++) { //for each guessed letter
+    let guessGrid = document.getElementById(`${index}${i}`); // get ID of specific guess Grid location
+    if (currentGuess[i]) { // if letter in currentGuess exist, put it on the board
       guessGrid.innerHTML = currentGuess[i].key;
-    } else {
+    } else { // if no letter in current guess, fill guess grid with ''
       guessGrid.innerHTML = '';
     }
-    if (guessed) {
-      guessGrid.classList.add(currentGuess[i].result);
+    if (guessed) {   //GUESS == TRUE
+      guessGrid.classList.add(currentGuess[i].result); //outputs the found/correct tags to letters in guessgrid
     }
   }
-  if (guessed) {
-    updateKeyboard();
+  if (guessed) { //GUESS == TRUE
+    updateKeyboard(); //updates keyboard CLASSes
   }
   
 }
