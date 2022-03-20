@@ -1,0 +1,139 @@
+.container .correct {
+  background-color: #538D4E;
+  border-color: #538D4E;
+  color: white;
+}
+
+.container .found {
+  background-color: #c9b458;
+  border-color: #c9b458;
+  color: white;
+}
+
+.container .wrong {
+  background-color: #3A3A3C;
+  border-color: #3A3A3C;
+  color: white;
+  /* font-size:min(45px,8vw); */
+
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  flex-direction: column;
+  margin-top: 0;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: bold;
+  background-color: #121213;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  
+}
+
+.key-guess {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  border: min(3px,.5vw) solid #3A3A3C;
+  height: 8vw;
+  max-height: 50px;
+  width: 7vw;
+  max-width: 40px;
+  vertical-align: baseline;
+  color: #FFFFFF;
+  margin: min(3px,.75vw);
+  font-size:min(45px,8vw);
+}
+
+#automate {
+  margin-top: min(10px,4vw);
+  color: #d3d6da;
+  font-size: min(4.5vw,20px);
+}
+
+#credits { /* This is the credits ID */
+  margin-top: min(20px,4vw);
+  color: #dfdfe2;
+  font-size: min(4.5vw,20px);
+}
+
+#guessGrid { /* This is the credits ID */
+  justify-content: center;
+  align-items: center;
+  margin-top: max(10px,min(15px,2vw));
+  width: min(400px,avg(300px,90vw));
+  height: min(400px,avg(300px,90vw));
+  text-align: center;
+}
+
+.key-guess::before {
+  content: '';
+  
+}
+
+#title { /* This is the title ID */
+  color: #FFFFFF;
+  font-size: min(25px,max(20px,2vw));
+  border-bottom: solid min(3px,5vw) #3a3a3c; 
+  height: min(120px,max(70px,15vw));
+  max-height: 90px;
+}
+
+#keyboard { /* This is the keyboard ID*/
+  display: block;
+  text-align: center;
+  width: min(700px,96vw);
+}
+
+#Automate { /* This is the Automate ID*/
+  margin-top: 50vw;
+  color: #FFFFFF;
+  font-size: min(33px,5vw);
+}
+
+#revealSolution { /* This is the revealSolution button CLASS*/
+  white-space: nowrap;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size:min(25px,5vw);
+  border-radius: min(7px,1vw);
+  background-color: #d3d6da;
+  border: 0;
+  height: 7vw;
+  max-height: 40px;
+  width: 55vw;
+  max-width: 250px;
+  margin: min(2px,.3vw);
+  cursor: pointer;
+  color: #1a1a1b;
+}
+
+.key { /* This is the key button CLASS*/
+  white-space: nowrap;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size:min(33px,5vw);
+  border-radius: min(7px,1vw);
+  background-color: #d3d6da;
+  border: 0;
+  height: 9vw;
+  max-height: 60px;
+  width: 9vw;
+  max-width: 60px;
+  margin: min(1px,.3vw);
+  cursor: pointer;
+  color: #1a1a1b;
+}
+
+#enter{ /* This is the enter ID */
+  font-size: min(23px,3vw);
+  width: 13vw;
+  max-width: 90px;
+  /* margin: min(2px,.5vw); */
+}
+
